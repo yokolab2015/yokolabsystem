@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'download',
+    'accounts',
+    'search',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,7 +54,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'labsw.urls'
-LOGIN_URL = 'user_login'
+#LOGIN_URL = 'user_login'
 
 
 TEMPLATES = [
