@@ -1,0 +1,7 @@
+<h1>{searching.question }}</h1>
+
+<ul>
+{% for choice in searching.choice_set.all %}
+    <li>{{ choice.choice }} -- {{ choice.votes }} 票</li>
+{% endfor %}
+</ul>
