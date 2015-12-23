@@ -15,7 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls import patterns, include, url
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
+    url(r'^$', login_required(TemplateView.as_view(template_name='download/index.html')), name="index"),
+
+    #url(r'^$', include('download.urls', namespace="index")),
+    url(r'^add_user/$', 'download.views.add_user', name="add_user"),
+    url(r'^logout/$', 'download.views.user_logout', name="user_logout"),
+    url(r'^login/$', 'download.views.user_login', name="user_login"),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^download/', include('download.urls', namespace='download')),  # 追加する
+
 ]

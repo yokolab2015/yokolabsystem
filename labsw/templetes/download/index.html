@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <p>Welcome to Django world!</p>
+  <p><a href="login">Your Account</a></p>
+  <p><a href="logout">Logout</a></p>
+  <p><a href="add_user">Add new user</a></p>
+  <a href="{% url 'download:add' %}">登録画面へ</a>
+  <form method="post" action="{% url 'download:delete' %}">{# actionを変更する #}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>  </th>
+          <th>name</th>{# 追加する #}
+          <th>message</th>
+          <th>created_at</th>
+          <th>updated_at</th>
+          <th>　</th>
+          <th>　</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for message in messages %}
+          <tr>
+            <td><input type="checkbox" name="delete_ids" value="{{ message.id }}"></td>{# 追加する #}
+            <td>{{ message.title }}</td>
+            <td>{{ message.message }}</td>
+            <td>{{ message.created_at }}</td>
+            <td>{{ message.updated_at }}</td>
+            <td><a href="{% url 'download:edit' message.id %}">更新画面へ</a></td>
+            <td><a href="{% url 'download:download' message.id %}">ダウンロード画面へ</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% csrf_token %}{# 追加する #}
+    <input type="submit" value="削除">
+  </form>
+{% endblock %}
