@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+{% block body %}
+	<form action="./" method="get">
+		<label>文書タイトル:<input type="text" size="20" name="file_name"></label><br>
+		<label>ファイル形式:<input type="radio" size="10" name="file_format" value="pdf">pdf<input type="radio" size="10" name="file_format" value="pptx">pptx</label><br>
+		<label>作成者:<input type="text" size="10" name="author_name"></label><br>
+		<label>
+		<input type="submit" value="検索">
+	</form>
+	{% if file_name %}
+		{{ file_name }}がありました
+	{% endif %}
+	{% if author_name %}
+                {{ author_name }}がありました
+        {% endif %}
+
+{% endblock %}
+{% endblock content %}
