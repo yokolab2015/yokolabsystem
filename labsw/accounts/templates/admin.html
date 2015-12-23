@@ -4,10 +4,10 @@
 
 <body>
   <h1>削除ユーザー選択</h1>
-
-  {% for user in users %}
+  <p>削除するユーザーを選んでください</p>
+  {% for userinfo in users %}
   <form method="post" action="{% url 'complete' %}">{% csrf_token %}
-   <input type="checkbox" name="id" value="{{ users.id }}">{{ users }}
+   <input type="checkbox" name="id" value="{{ userinfo.id }}">{{ userinfo.username }}
    <br />
   {% endfor %}
    <input type="submit" value="削除する"> 
