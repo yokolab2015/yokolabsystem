@@ -3,8 +3,8 @@ from django.shortcuts import redirect
 from django.template import RequestContext
 from django.core.context_processors import csrf 
 from django.http import HttpResponse
-from accounts.models import Userinfo
-from accounts.models import UserForm
+from docmng.models import Userinfo
+from docmng.models import UserForm
 
 def register(request):
     users = Userinfo()
