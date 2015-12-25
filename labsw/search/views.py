@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django import forms
 from django.template import RequestContext
@@ -9,12 +9,14 @@ from django.db.models import Q
 from . import forms, models
 from django.shortcuts import redirect
 from docmng.models import Document
-from .forms import DocForm
+#from .forms import DocForm
 from .forms import DocForm2
 from django.utils.http import urlencode
 #from django import html
 # Create your views here.
 from django.db.models.manager import QuerySet
+#from download import views
+#from .models import Message 
 
 #def show(request):
 #	Document.objects
@@ -48,35 +50,29 @@ from django.db.models.manager import QuerySet
 	#return render('search/kekka.html', books)
 	#return redirect('./search/kekka.html')
 
-#def accpept(request, book_id=None):
-#	d = {
-#                'fn': request.GET.get('file_name'),
-#                'ff': request.GET.get('file_format'),
-#                'y': request.GET.get('year'),
-#                'an': request.GET.get('author_name'),
-#                'dt': request.GET.get('example1')
-#        }
 
 def search(request):
 	form = DocForm2()
-	if request.method == 'GET':
-		return render_to_response('search/search_file2.html',{'form':form },RequestContext(request))
-	elif request.method == 'POST':
-		form = DocForm2(request.post)
+	if request.method == 'POST':
+		form = DocForm2(request.POST)
 		an = request.POST['createauthor']
 		fn = request.POST['title']
-		books = Document.filter(Q(name__contains=fn) | Q(author=an))
+		y = request.POST['createyear']
+		ff = request.POST['for_type']
+		dt = request.POST['doc_type']
+		books = Document.objects.filter(Q(name__contains=fn) & Q(author__contains=an) & Q(day__contains=y) & Q(format__contains=ff) & Q(type__contains=dt))
 		return render_to_response('search/kekka.html',{'form':form, 'books':books}, RequestContext(request))
+	else :
+		return render_to_response('search/search_file2.html',{'form':form },RequestContext(request))
 
-	#form = DocForm2()
-	#fn = request.GET.get('file_name')
-	#ff = request.GET.get('file_format')
-	#y = request.GET.get('year')
-	#an = request.GET.get('author_name')
-	#dt = request.GET.get('example1')
-#この下で動く
-	#one_entries = Document.objects.filter(author='浜田哲郎')
-	#print(one_entries.query)
-	#return render(request, 'search/search_file.html')
-	#return render_to_response('search/search_file.html',{'form':form },RequestContext(request))
-
+def download(request):
+    message = get_object_or_404(Message, id=editing_id)
+    zip_string = (message.file)                        
+    response = HttpResponse(zip_string, content_type=None)
+    Filename= message.file.name.rsplit('/',1)[1]                                                
+    response['Content-Disposition'] = 'attachment; filename =' + Filename
+    d = {                                                                
+        'messages': Docment.objects.all(),                               
+    }                                                                    
+    return response
+ 
