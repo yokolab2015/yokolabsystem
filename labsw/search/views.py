@@ -9,7 +9,7 @@ from django.db.models import Q
 from . import forms, models
 from django.shortcuts import redirect
 from docmng.models import Document
-#from .forms import DocForm
+from .forms import DocFormE
 from .forms import DocForm2
 from django.utils.http import urlencode
 #from django import html
@@ -78,12 +78,13 @@ def download(request, editing_id):
 
 
 def delete(request):
-    delete_ids = request.POST.getlist('delete_ids')
-    if delete_ids:                                 
-
-        #os.remove(Message.objects.filter(id__in=delete_ids).name)
-        Document.objects.filter(id__in=delete_ids).delete()        
-    return redirect('search:search')                             
+	form = DocForm2()
+	delete_ids = request.POST.getlist('delete_ids')
+	if delete_ids:
+		Document.objects.filter(id__in=delete_ids).delete()
+		#return redirect('search:search')
+		books = Document.objects.all()
+	return render_to_response('search/kekka.html',{'form':form, 'books':books}, RequestContext(request))                             
 
 
 def delete_file(sender, instance, **kwargs):
@@ -93,20 +94,23 @@ def delete_file(sender, instance, **kwargs):
 def edit(request, editing_id):
 	message = get_object_or_404(Document, id = editing_id)
 	if request.method == 'POST':                         
-		form = DocForm2(request.POST,request.FILES)    
-		if form.is_valid():                              
-            #handle_uploaded_file(request.FILES['file'],request.FILES['file'].name)
-            #message.message = form.cleaned_data['message']                         
-			message.name = form.cleaned_data['title']                             
+		form = DocFormE(request.POST,request.FILES)    
+		if form.is_valid():
+			message.name = form.cleaned_data['title'] 
 			message.author = form.cleaned_data['createauthor']
 			#message.day = form.cleaned_data['createyear']
 			message.format = form.cleaned_data['for_type']
 			message.type = form.cleaned_data['doc_type']
+			message.path = form.cleaned_data['path']		
 			message.save()
-			return HttpResponseRedirect('/search/')
+			#return HttpResponseRedirect('/search/')
+			#return render(request, 'search/kekka.html')
+			books = Document.objects.all()
+			return render_to_response('search/kekka.html',{'form':form, 'books':books}, RequestContext(request))
+
 	else:                                            
         # GETリクエスト（初期表示）時はDBに保存されているデータをFormに結びつける
-		form = DocForm2()
+		form = DocFormE()
 	d = {
        		'form': form,
 	}
