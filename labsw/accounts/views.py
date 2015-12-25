@@ -32,17 +32,16 @@ def delete(request):
     return render_to_response('delete.html', {}, context_instance=RequestContext(request))
 
 def complete(request):
-    id = request.POST.getlist('id')
-    possword = request.POST.getlist('password')
-   # if id:
-   #    Userinfo.objects.filter(id__in=id).delete()
-   # else:
-   #   return redirect('delete')
-    if possword:
-       deleteuser = Userinfo.objects.filter(password=possword)
-       #loginuser = ...
-       if deleteuser:
-          deleteuser.delete()
-       else:
-          return HttpResponse("パスワードが間違っています")
+    #id = request.POST.getlist('id')
+    p = request.POST['password']
+    #if id:
+    #   Userinfo.objects.filter(id__in=id).delete()
+    #else:
+      #return redirect('delete')
+    deleteuser = Userinfo.objects.filter(password=p)
+    if deleteuser:
+       deleteuser.delete()
+    else:
+       return HttpResponse("パスワードが間違っています")
+
     return HttpResponse("削除しました")
