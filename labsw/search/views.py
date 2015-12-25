@@ -65,14 +65,49 @@ def search(request):
 	else :
 		return render_to_response('search/search_file2.html',{'form':form },RequestContext(request))
 
-def download(request):
-    message = get_object_or_404(Message, id=editing_id)
-    zip_string = (message.file)                        
+def download(request, editing_id):
+    message = get_object_or_404(Document, id=editing_id)
+    zip_string = (message.path)                        
     response = HttpResponse(zip_string, content_type=None)
-    Filename= message.file.name.rsplit('/',1)[1]                                                
+    Filename= message.path.name.rsplit('/',1)[1]                                                
     response['Content-Disposition'] = 'attachment; filename =' + Filename
     d = {                                                                
-        'messages': Docment.objects.all(),                               
+        'messages': Document.objects.all(),                               
     }                                                                    
     return response
- 
+
+
+def delete(request):
+    delete_ids = request.POST.getlist('delete_ids')
+    if delete_ids:                                 
+
+        #os.remove(Message.objects.filter(id__in=delete_ids).name)
+        Document.objects.filter(id__in=delete_ids).delete()        
+    return redirect('search:search')                             
+
+
+def delete_file(sender, instance, **kwargs):
+    instance.file.delete(False)
+
+
+def edit(request, editing_id):
+	message = get_object_or_404(Document, id = editing_id)
+	if request.method == 'POST':                         
+		form = DocForm2(request.POST,request.FILES)    
+		if form.is_valid():                              
+            #handle_uploaded_file(request.FILES['file'],request.FILES['file'].name)
+            #message.message = form.cleaned_data['message']                         
+			message.name = form.cleaned_data['title']                             
+			message.author = form.cleaned_data['createauthor']
+			#message.day = form.cleaned_data['createyear']
+			message.format = form.cleaned_data['for_type']
+			message.type = form.cleaned_data['doc_type']
+			message.save()
+			return HttpResponseRedirect('/search/')
+	else:                                            
+        # GETリクエスト（初期表示）時はDBに保存されているデータをFormに結びつける
+		form = DocForm2()
+	d = {
+       		'form': form,
+	}
+	return render(request, 'search/edit.html', d)    
