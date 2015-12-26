@@ -21,6 +21,23 @@ FOR_TYPE = (
 	('', '全て'),
 )
 
+DOC_TYPEe = (
+        ('OS輪講', 'OS輪講'),
+        ('仮想化輪講', '仮想化輪講'),
+        ('文献紹介', '文献紹介'),
+        ('卒論紹介', '卒論計画'),
+        ('卒論進歩', '卒論進歩'),
+        ('マニュアル', 'マニュアル'),
+        ('その他', 'その他'),
+)
+
+FOR_TYPEe = (
+        ('pdf', 'pdf'),
+        ('doc', 'doc'),
+        ('xls', 'xls'),
+        ('ppt', 'ppt'),
+)
+
 
 class DocForm(ModelForm):
 	class Meta:
@@ -38,8 +55,8 @@ class DocFormE(forms.Form):
         title = forms.CharField(label='タイトル', min_length=2, max_length=128)
         createauthor = forms.CharField(label='作者',min_length=2, max_length=16)
         #createyear = forms.CharField(label='年度', min_length=4, max_length=4)
-        for_type = forms.ChoiceField(label='フォーマット', widget=forms.Select, choices=FOR_TYPE, required=False,)
-        doc_type = forms.ChoiceField(label='文書種別', widget=forms.Select, choices=DOC_TYPE, required=False,)
+        for_type = forms.ChoiceField(label='フォーマット', widget=forms.Select, choices=FOR_TYPEe, required=False,)
+        doc_type = forms.ChoiceField(label='文書種別', widget=forms.Select, choices=DOC_TYPEe, required=False,)
         path = forms.FileField()
 
 
