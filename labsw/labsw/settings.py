@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'download',
     'accounts',
     'search',
+    'authentications',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,14 +56,14 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'labsw.urls'
-#LOGIN_URL = 'user_login'
+LOGIN_URL = '/login/'
 
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templetes'),
+            os.path.join(BASE_DIR, 'templates'),
                  ],
         'APP_DIRS': True,
         'OPTIONS': {
