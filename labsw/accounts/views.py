@@ -41,18 +41,21 @@ def create_user(request):
     return render_to_response('createuser.html', {}, context_instance=RequestContext(request))
 
 def delete(request):
+    loginuser = request.user
+    v = loginuser.is_staff
     #管理者ならば(セッション管理)adminページへ移動
-    #if admin
-    #users = Userinfo.objects.all()
-    #return render_to_response('admin.html', {'users':users}, context_instance=RequestContext(request))
+    if v:
+       users = Userinfo.objects.all()
+       return render_to_response('admin.html', {'users':users}, context_instance=RequestContext(request))
 
     return render_to_response('delete.html', {}, context_instance=RequestContext(request))
 
 def complete(request):
+    loginuser = request.user
     p = request.POST['password']
-    deleteuser = Userinfo.objects.filter(password=p)
-    if deleteuser:
-       deleteuser.delete()
+    v = loginuser.check_password(p)
+    if v:
+       loginuser.delete()
     else:
        return HttpResponse("パスワードが間違っています")
 
@@ -64,3 +67,4 @@ def adcomp(request):
        Userinfo.objects.filter(id__in=id).delete()
     else:
       return redirect('delete')
+    return HttpResponse("削除しました")
