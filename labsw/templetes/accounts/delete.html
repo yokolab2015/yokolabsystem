@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+
+<body>
+  <h1>ユーザー削除</h1>
+  <form method="post" action="complete">{% csrf_token %}
+    <p>パスワードを入力してください:</p>
+    <input type="password" name="password" value="" />
+    <br />
+    <input type="submit" value="削除する" />
+    <br />
+    <a href="#">戻る</a>
+  </form>
+</body>
+</html>
