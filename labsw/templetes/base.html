@@ -3,9 +3,52 @@
 <head lang="ja">
   <meta charset="UTF-8">
   <title>{% block title %}{% endblock %}</title>
+  <style>
+    html, body {
+      margin: 0;
+    }
+    header {
+      width: 100%;
+      background: #ccc;
+      padding: 5px 10px;
+      text-align: center;
+    }
+      header h1 {
+        font-size: 30px;
+        margin: 0px;
+        margin-right: 20px;
+        margin-bottom: 10px;
+      }
+      header a {
+        margin-right: 25px;
+      }
+
+    footer {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      background: #ccc;
+      padding: 6px;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
+
+<header>
+  <h1>YokoLab DM</h1>
+  <a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a>
+  <a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a>
+  <a href="{% url 'search:search' %}">SEARCH</a>
+  <a href="{% url 'download:index' %}">DOWNLOAD</a>
+</header>
+
 {% block body %}
 {% endblock %}
+
+<footer>
+  Copyright © 2016 YokoLab All Rights Reserved.
+</footer>
 </body>
 </html>
