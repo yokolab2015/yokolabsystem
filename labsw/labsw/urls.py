@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^register/create_user$', views.create_user, name ='create_user'),
     url(r'^delete/$', views.delete, name = 'delete'),
     url(r'^delete/complete$' , views.complete, name = 'complete'),
+    url(r'^delete/adcomp$' , views.adcomp, name = 'adcomp'),
     url(r'^search/', include('search.urls', namespace = 'search')),
 
     #authentications
