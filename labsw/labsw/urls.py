@@ -34,8 +34,8 @@ urlpatterns = [
 
     #authentications
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
-    url(r'^$', 'django.contrib.auth.views.login',
-        {'template_name': 'login.html'}),
+    url(r'^login/$', 'django.contrib.auth.views.login',
+        {'template_name': 'authentications/login.html'}),
     url(r'^logout/$', 'django.contrib.auth.views.logout',
-        {'template_name': 'logged_out.html'}),
+        {'template_name': 'authentications/logged_out.html'}),
 ]
