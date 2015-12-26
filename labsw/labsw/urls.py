@@ -31,5 +31,12 @@ urlpatterns = [
     url(r'^delete/complete$' , views.complete, name = 'complete'),
     url(r'^search/', include('search.urls', namespace = 'search')),
 
+    #authentications
+    url(r'^authentications/', include('authentications.urls', namespace='authentications')),
+    url(r'^login/$', 'django.contrib.auth.views.login',
+        {'template_name': 'authentications/login.html'}),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',
+        {'template_name': 'authentications/logged_out.html'}),
+
 
 ]
