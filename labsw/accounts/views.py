@@ -59,7 +59,7 @@ def complete(request):
     else:
        return HttpResponse("パスワードが間違っています")
 
-    return HttpResponse("削除しました")
+    return render_to_response('complete.html', {}, context_instance=RequestContext(request))
 
 def adcomp(request):
     id = request.POST.getlist('id')
@@ -67,4 +67,5 @@ def adcomp(request):
        Userinfo.objects.filter(id__in=id).delete()
     else:
       return redirect('delete')
-    return HttpResponse("削除しました")
+
+    return render_to_response('complete.html', {}, context_instance=RequestContext(request))
