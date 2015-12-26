@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <!--<a href="{% url 'download:index' %}">一覧画面へ</a>-->
+    <form enctype="multipart/form-data" action="" method="post">
+        <table>
+            {{form.as_p}}
+        </table>
+         {% csrf_token %}
+    <input type="submit" value="登録">
+    </form>
+{% endblock %}
