@@ -7,6 +7,24 @@ from docmng.models import Userinfo
 from docmng.models import UserForm
 
 def register(request):
+    if request.method == 'POST':
+       user = Userinfo()
+       form = UserForm(request.POST, instance=user)
+
+       if form.is_valid():
+          newuser = form.save(commit=False)
+          newuser = Userinfo.objects.create_user(user.username, user.email, user.password)
+          newuser.number = user.number
+          newuser.fuclty = user.fuclty
+          newuser.save()
+          return render_to_response('confirm.html', {'newuser':newuser}, context_instance=RequestContext(request))
+       pass
+    else:
+       user = Userinfo()
+       form = UserForm(instance=user)
+    return render_to_response('register.html', {'form':form}, context_instance=RequestContext(request))
+
+'''
     users = Userinfo()
     form = None
     if request.method == 'POST':
@@ -14,11 +32,10 @@ def register(request):
        if form.is_valid():
           newuser = form.save(commit=False)
           newuser.save()
-          return render_to_response('confirm.html', {'newuser':newuser}, context_instance=RequestContext(request))
        pass
     else:
        form = UserForm(instance = users)
-    return render_to_response('register.html', {'form':form}, context_instance=RequestContext(request))
+'''
 
 def create_user(request):
     return render_to_response('createuser.html', {}, context_instance=RequestContext(request))
