@@ -1,39 +1,13 @@
 {% extends "base.html" %}
 
 {% block body %}
-  <p>Welcome to Django world!</p>
-  <p><a href="login">Your Account</a></p>
-  <p><a href="logout">Logout</a></p>
-  <p><a href="add_user">Add new user</a></p>
-  <a href="{% url 'download:add' %}">登録画面へ</a>
-  <form method="post" action="{% url 'download:delete' %}">{# actionを変更する #}
-    <table border="1">
-      <thead>
-        <tr>
-          <th>  </th>
-          <th>name</th>{# 追加する #}
-          <th>message</th>
-          <th>created_at</th>
-          <th>updated_at</th>
-          <th>　</th>
-          <th>　</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for message in messages %}
-          <tr>
-            <td><input type="checkbox" name="delete_ids" value="{{ message.id }}"></td>{# 追加する #}
-            <td>{{ message.title }}</td>
-            <td>{{ message.message }}</td>
-            <td>{{ message.created_at }}</td>
-            <td>{{ message.updated_at }}</td>
-            <td><a href="{% url 'download:edit' message.id %}">更新画面へ</a></td>
-            <td><a href="{% url 'download:download' message.id %}">ダウンロード画面へ</a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% csrf_token %}{# 追加する #}
-    <input type="submit" value="削除">
-  </form>
+  <p>よこらぼ文書管理システム</p>
+  <p><a href="{% url 'search:search' %}">文書検索画面</a></p>
+  <p><a href="{% url 'download:add' %}">文書登録画面</a></p>
+  <!-- <a href="{% url 'download:add' %}">ログアウト</a> -->
+  <p><a href="{% url 'delete' %}">ユーザ削除</a></p>
+
+  {% csrf_token %}{# 追加する #}
+
+
 {% endblock %}
