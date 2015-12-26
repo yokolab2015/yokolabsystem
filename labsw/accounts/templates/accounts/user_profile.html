@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}プロフィール{% endblock title %}
+
+{% block content %}
+
+    <h3 class="page-header">プロフィール</h3>
+
+    <p>Hello {{ user.get_full_name|default:user.username }}!</p>
+    <p>Hello {{ user.get_full_id|default:user.id }}!</p>
+
+    <a href="{% url 'django.contrib.auth.views.logout' %}">Log out...</a>
+{% endblock content %}
