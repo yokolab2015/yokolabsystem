@@ -1,26 +1,22 @@
 from django.db import models
 from django.forms import ModelForm
 from django import forms
+from django.contrib.auth.models import AbstractUser
 
-class Userinfo(models.Model):
-    username = models.CharField(max_length=16)
-    number = models.IntegerField()
-    password = models.CharField(max_length=8)
+class Userinfo(AbstractUser):
+    number = models.CharField('学籍番号', max_length=8)
     FUCLTY_CHOICES = (
        ('システム工学群', 'システム工学群'),
        ('環境理工学群', '環境理工学群'),
        ('情報学群', '情報学群'),
        ('マネジメント学部', 'マネジメント学部'),
     )
-    fuclty = models.CharField(max_length=10, choices=FUCLTY_CHOICES)
-    email = models.EmailField()
-    def __str__(self):
-      return self.username
+    fuclty = models.CharField('学群', max_length=10, choices=FUCLTY_CHOICES)
 
 class UserForm(ModelForm):
    class Meta:
       model = Userinfo
-      fields = '__all__'
+      fields = 'username', 'number', 'password', 'fuclty', 'email'
       widgets = {
         'password': forms.PasswordInput(),
       }    
