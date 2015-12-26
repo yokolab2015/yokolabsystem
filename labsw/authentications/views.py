@@ -13,5 +13,5 @@ from django.contrib.auth.models import User
 def user_profile(request):
     context = RequestContext(request,
                              {'user': request.user})
-    return render_to_response('authentications/user_profile.html',
+    return render_to_response('user_profile.html',
                               context_instance=context)
