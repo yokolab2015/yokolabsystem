@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}プロフィール{% endblock title %}
+{% block title %}PROFILE{% endblock title %}
 
-{% block content %}
+{% block body %}
+  <h3 class="page-header">プロフィール</h3>
 
-    <h3 class="page-header">プロフィール</h3>
+  <p>Hello {{ user.get_full_name|default:user.username }}!</p>
+  <p>Hello {{ user.get_full_id|default:user.id }}!</p>
 
-    <p>Hello {{ user.get_full_name|default:user.username }}!</p>
-    <p>Hello {{ user.get_full_id|default:user.id }}!</p>
-
-    <a href="{% url 'django.contrib.auth.views.logout' %}">Log out...</a>
-{% endblock content %}
+  <a href="{% url 'django.contrib.auth.views.logout' %}">Log out...</a>
+{% endblock body %}
