@@ -64,8 +64,7 @@ def add(request):
                      , path = request.FILES['path'])
         #a = b.Document(Sid = username)
         b.save()
-
-        return HttpResponseRedirect('/download/',d)
+        return HttpResponseRedirect('/accounts/profile/',d)
 
     return render(request, 'download/edit.html', d)
 ##
