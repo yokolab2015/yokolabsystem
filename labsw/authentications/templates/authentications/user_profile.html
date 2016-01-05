@@ -1,12 +1,19 @@
 {% extends "base.html" %}
-
 {% block title %}PROFILE{% endblock title %}
 
 {% block body %}
-  <h3 class="page-header">プロフィール</h3>
-
+  <!--<h3 class="page-header">プロフィール</h3>-->
+  <center>
+  <p>よこらぼ文書管理システム</p>
   <p>Hello {{ user.get_full_name|default:user.username }}!</p>
-  <p>Hello {{ user.get_full_id|default:user.id }}!</p>
+  <!--<p>Hello {{ user.get_full_id|default:user.id }}!</p>-->
+  <p><a href="{% url 'search:search' %}">文書検索画面</a></p>
+  <p><a href="{% url 'download:add' %}">文書登録画面</a></p>
+  <!-- <a href="{% url 'download:add' %}">ログアウト</a> -->
+  <p><a href="{% url 'delete' %}">ユーザ削除</a></p>
+
+  {% csrf_token %}{# 追加する #}
 
   <a href="{% url 'django.contrib.auth.views.logout' %}">Log out...</a>
+  </center>
 {% endblock body %}

@@ -24,18 +24,6 @@ def register(request):
        form = UserForm(instance=user)
     return render_to_response('register.html', {'form':form}, context_instance=RequestContext(request))
 
-'''
-    users = Userinfo()
-    form = None
-    if request.method == 'POST':
-       form = UserForm(request.POST, instance=users)
-       if form.is_valid():
-          newuser = form.save(commit=False)
-          newuser.save()
-       pass
-    else:
-       form = UserForm(instance = users)
-'''
 
 def create_user(request):
     return render_to_response('createuser.html', {}, context_instance=RequestContext(request))

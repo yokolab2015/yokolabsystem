@@ -11,47 +11,17 @@ from django.shortcuts import redirect
 from docmng.models import Document
 from .forms import DocFormE
 from .forms import DocForm2
-from django.utils.http import urlencode
-#from django import html
-# Create your views here.
-from django.db.models.manager import QuerySet
-#from download import views
-#from .models import Message 
-
-#def show(request):
-#	Document.objects
-#	form = DocForm2()
-#	if request.method == 'GET':
-#		form = DocForm2(request.GET)
-#		books = Document.objects.all()
-	#fn = request.GET['title']
-	#ff = request.GET['for_type']
-	#y = request.GET['createyear']
-#	an = request.GET['createauthor']
-	#dt = request.GET['doc_type']
-#	d = {
-#		'fn': request.GET.get('title'),
-#       'ff': request.GET.get('for_type'),
-#        'y': request.GET.get('createyear'),
-#       'an': request.GET.get('createauthor'),
-#        'dt': request.GET.get('doc_type')
-#	}       
-#	books['entry']=Document.objects.filter(
-#		Q(author__contain=an)
-#	)
-	#queries=[Q(author__contains=d)]
-	#books = Document.objects.all().order_by('sid')
-	#books = Document.objects.filter(author='fn')
-	#books = Document.objects.filter(Q(author__contains='d'))
-	#books = Document.objects.filter(Q(author__contains=form.cleaned_data['createauthor']))
-	#print('an')
-#	return render_to_response('search/kekka.html',{'form':form, 'books': books},RequestContext(request))
-	#return render_to_response('search/kekka.html',dict(book_id=book_id),context_instance=RequestContext(request))
-	#return render('search/kekka.html', books)
-	#return redirect('./search/kekka.html')
 
 
 def search(request):
+	username = request.user
+	v = username. is_active
+	if v:
+		username = request.user
+	else:
+	# セッション情報無しの場合
+		return HttpResponseRedirect('/login/')
+
 	form = DocForm2()
 	if request.method == 'POST':
 		form = DocForm2(request.POST)
@@ -77,14 +47,54 @@ def download(request, editing_id):
     return response
 
 
-def delete(request):
+def delete(request, editing_id):
+	username = request.user
+	v = username. is_active
+	#p = 'yes'
+	#i = 0
+	if v:
+		username = request.user
+	else:
+	# セッション情報無しの場合
+		return HttpResponseRedirect('/login/')
+
+	message = get_object_or_404(Document, id = editing_id)
+	v2 = username.is_staff
+	username = str(username)
+	if v2:
+		message.delete()
+	else:
+		if message.author == username:
+			message.delete()
+		else:
+			return HttpResponse('ユーザが違います')
+		
 	form = DocForm2()
-	delete_ids = request.POST.getlist('delete_ids')
-	if delete_ids:
-		Document.objects.filter(id__in=delete_ids).delete()
-		#return redirect('search:search')
-		books = Document.objects.all()
-	return render_to_response('search/kekka.html',{'form':form, 'books':books}, RequestContext(request))                             
+	books = Document.objects.all()
+	return render_to_response('search/kekka.html',{'form':form, 'books':books}, RequestContext(request))
+
+'''	if delete_ids:
+		v2 = username.is_staff
+		if v2:
+			Document.objects.filter(id__in=delete_ids).delete()
+		else:
+			while p != 'No':
+				try:
+					p = Document.objects.filter(id__in=delete_ids).values_list('name',flat=True)[1]
+				except IndexError:
+					p = 'No'
+				an = str(p)
+				username = str(username)
+			#username = '\''+ str(username)+'\''
+			#if '['+ [username + ',']* username + ']' == an:
+				return HttpResponse(an)
+				if username != an:
+					return HttpResponse('出来ぬ')
+				elif p == 'No':
+					#Document.objects.filter(id__in=delete_ids).delete()
+					return HttpResponse('削除しました！！')
+				i = i + 1'''
+
 
 
 def delete_file(sender, instance, **kwargs):

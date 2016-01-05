@@ -25,7 +25,7 @@ from accounts import views
 urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^download/', include('download.urls', namespace='download')),  # 追加する
+    url(r'^index/', include('download.urls', namespace='download')),  # 追加する
     url(r'^register/$', views.register, name ='register'),
     url(r'^register/create_user$', views.create_user, name ='create_user'),
     url(r'^delete/$', views.delete, name = 'delete'),

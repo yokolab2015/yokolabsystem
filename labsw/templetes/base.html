@@ -41,12 +41,13 @@
   <a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a>
   <a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a>
   <a href="{% url 'search:search' %}">SEARCH</a>
-  <a href="{% url 'download:index' %}">DOWNLOAD</a>
+  <a href="/accounts/profile">TOP</a>
 </header>
+<center>
 
 {% block body %}
 {% endblock %}
-
+</center>
 <footer>
   Copyright © 2016 YokoLab All Rights Reserved.
 </footer>

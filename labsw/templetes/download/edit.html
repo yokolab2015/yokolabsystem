@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <a href="{% url 'download:index' %}">一覧画面へ</a>
-    <form enctype="multipart/form-data" action="" method="post">
+    <table>
+        <tr><td>username:</td><td>{{ username }}</td></tr>
+    </table>
+    <form enctype="multipart/form-data" action="/accounts/profile/" method="post">
         <table>
             {{form.as_p}}
         </table>

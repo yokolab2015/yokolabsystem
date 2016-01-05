@@ -6,7 +6,7 @@ from django.shortcuts import (
 
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST  # 追加する
-from docmng.models import Document  # 追加する
+from .models import Message  # 追加する
 from .forms import MessageForm  # 追加する
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
@@ -15,7 +15,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.decorators import login_required
-from .forms import UploadForm
 
 
 
@@ -28,56 +27,33 @@ def handle_uploaded_file(f,t):
             destination.write(chunk)
 
 def index(request):
-    username = request.user
-    v = username. is_active
-    if v:
-        username = request.user
-    else:
-        # セッション情報無しの場合
-        return HttpResponseRedirect('/login/')
-
     #Filename= message.file.name.rsplit('/',1)[1]
     d = {
-        'messages': Document.objects.all(),
+        'messages': Message.objects.all(),
     }
     return render(request, 'download/index.html', d)
 
 
 def add(request):
-    username = request.user
-    v = username. is_active
-    if v:
-        username = request.user
-    else:
-        # セッション情報無しの場合
-        return render(request,'download/login.html')
+    form = UploadForm(request.POST,request.FILES)
+    if form.is_valid():
+        Message.objects.create(**form.cleaned_data)
 
-    form = UploadForm(request.POST or None,request.FILES or None)
+        return HttpResponseRedirect('/download/')
     d = {
         'form': form,
-        'username': username,
     }
-    if form.is_valid():
-
-        b = Document(name = request.POST['name'], author = request.user
-                     ,type = request.POST['type'],format = request.POST['format']
-                     , path = request.FILES['path'])
-        #a = b.Document(Sid = username)
-        b.save()
-
-        return HttpResponseRedirect('/download/',d)
-
     return render(request, 'download/edit.html', d)
-##
+
 def edit(request, editing_id):
-    message = get_object_or_404(Document, id = editing_id)
+    message = get_object_or_404(Message, id = editing_id)
     if request.method == 'POST':
         form = UploadForm(request.POST,request.FILES)
         if form.is_valid():
             #handle_uploaded_file(request.FILES['file'],request.FILES['file'].name)
             message.message = form.cleaned_data['message']
             message.title = form.cleaned_data['title']
-            message.path = form.cleaned_data['file']
+            message.file = form.cleaned_data['file']
 
             message.save()
             return HttpResponseRedirect('/download/')
@@ -90,25 +66,23 @@ def edit(request, editing_id):
     }
     return render(request, 'download/edit.html', d)
 
+class UploadForm(forms.Form):
+    title = forms.CharField(max_length = 64)
+    message = forms.CharField(max_length= 255)
+    file = forms.FileField()
 
 
 def download(request, editing_id):
-    if 'username' in request.session:
-        username = request.session['username']
-    else:
-        # セッション情報無しの場合
-        return render(request,'download/login.html')
-
-    message = get_object_or_404(Document, id=editing_id)
+    message = get_object_or_404(Message, id=editing_id)
     zip_string = (message.file)
     response = HttpResponse(zip_string, content_type=None)
     Filename= message.file.name.rsplit('/',1)[1]
-    #test = 'サモンズボード.png'
-    #print(test)
-    #print(Filename)
+    test = 'サモンズボード.png'
+    print(test)
+    print(Filename)
     response['Content-Disposition'] = 'attachment; filename =' + Filename
     d = {
-        'messages': Document.objects.all(),
+        'messages': Message.objects.all(),
     }
     return response
 
@@ -119,14 +93,13 @@ def delete(request):
     if delete_ids:
 
         #os.remove(Message.objects.filter(id__in=delete_ids).name)
-        Document.objects.filter(id__in=delete_ids).delete()
+        Message.objects.filter(id__in=delete_ids).delete()
     return redirect('download:index')
 
 def delete_file(sender, instance, **kwargs):
     instance.file.delete(False)
 
 
-##
 def user_login(request):
 
     if request.POST:
