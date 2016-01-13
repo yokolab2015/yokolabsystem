@@ -53,7 +53,7 @@ class DocForm2(forms.Form):
 
 class DocFormE(forms.Form):
         title = forms.CharField(label='タイトル', min_length=2, max_length=128)
-        createauthor = forms.CharField(label='作者',min_length=2, max_length=16)
+        #createauthor = forms.CharField(label='作者',min_length=2, max_length=16)
         #createyear = forms.CharField(label='年度', min_length=4, max_length=4)
         for_type = forms.ChoiceField(label='フォーマット', widget=forms.Select, choices=FOR_TYPEe, required=False,)
         doc_type = forms.ChoiceField(label='文書種別', widget=forms.Select, choices=DOC_TYPEe, required=False,)

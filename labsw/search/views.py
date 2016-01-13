@@ -98,16 +98,25 @@ def delete(request, editing_id):
 
 
 def delete_file(sender, instance, **kwargs):
-    instance.file.delete(False)
+	instance.path.delete(False)
 
 
 def edit(request, editing_id):
+	username = request.user
+	v = username. is_active
+	if v:
+		username = request.user
+	else:
+		# セッション情報無しの場合
+		return render(request,'download/login.html')
+	username = str(username)
 	message = get_object_or_404(Document, id = editing_id)
 	if request.method == 'POST':                         
 		form = DocFormE(request.POST,request.FILES)    
 		if form.is_valid():
+			message.delete()
 			message.name = form.cleaned_data['title'] 
-			message.author = form.cleaned_data['createauthor']
+			message.author = username
 			#message.day = form.cleaned_data['createyear']
 			message.format = form.cleaned_data['for_type']
 			message.type = form.cleaned_data['doc_type']

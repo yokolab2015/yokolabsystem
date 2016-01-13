@@ -2,6 +2,9 @@ from django.db import models
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+
 
 class Userinfo(AbstractUser):
     number = models.CharField('学籍番号', max_length=8)
@@ -29,3 +32,8 @@ class Document(models.Model):
     format = models.CharField(max_length=8)
     sid = models.CharField(max_length=8)
     path = models.FileField(upload_to='upload')
+
+@receiver(post_delete, sender=Document)
+def delete_file(sender, instance, **kwargs):
+    instance.path.delete(False)
+
