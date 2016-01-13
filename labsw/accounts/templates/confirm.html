@@ -9,21 +9,27 @@
      <tr>
      <td>名前:</td>
      <td>{{ newuser.username }}</td>
+     <input type="hidden" name="username" value="{{ newuser.username }}"></input>
      </tr>
 
      <tr>
      <td>学籍番号:</td>
      <td>{{ newuser.number }}</td>
+     <input type="hidden" name="number" value="{{ newuser.number }}"></input>
      </tr>
+
+     <input type="hidden" name="password" value="{{ newuser.password }}"></input>
 
      <tr>
      <td>学群:</td>
      <td>{{ newuser.fuclty }}</td>
+     <input type="hidden" name="fuclty" value="{{ newuser.fuclty }}"></input>
      </tr>
      
      <tr>
      <td>メールアドレス:</td>
      <td>{{ newuser.email }}</td>
+     <input type="hidden" name="email" value="{{ newuser.email }}"></input>
      </tr>
    </table>
    <input type="submit" name="confirm" value="OK" />

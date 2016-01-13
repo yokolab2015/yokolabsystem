@@ -13,10 +13,9 @@ def register(request):
 
        if form.is_valid():
           newuser = form.save(commit=False)
-          newuser = Userinfo.objects.create_user(user.username, user.email, user.password)
           newuser.number = user.number
           newuser.fuclty = user.fuclty
-          newuser.save()
+
           return render_to_response('confirm.html', {'newuser':newuser}, context_instance=RequestContext(request))
        pass
     else:
@@ -26,6 +25,17 @@ def register(request):
 
 
 def create_user(request):
+    u = request.POST['username']
+    n = request.POST['number']
+    p = request.POST['password']
+    f = request.POST['fuclty']
+    e = request.POST['email']
+
+    newuser = Userinfo.objects.create_user(u, e, p)
+    newuser.number = n
+    newuser.fuclty = f
+    newuser.save()
+
     return render_to_response('createuser.html', {}, context_instance=RequestContext(request))
 
 def delete(request):
