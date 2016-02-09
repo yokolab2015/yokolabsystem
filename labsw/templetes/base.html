@@ -27,22 +27,40 @@
       position: fixed;
       width: 100%;
       bottom: 0;
-      background: #ccc;
+      background: #fafafa;
       padding: 6px;
       font-size: 12px;
       text-align: center;
+      box-shadow:rgba(168, 168, 168, 0.65098) 0px 0px 3px 2px;
+      -webkit-box-shadow:rgba(168, 168, 168, 0.65098) 0px 0px 3px 2px;
+      -moz-box-shadow:rgba(168, 168, 168, 0.65098) 0px 0px 3px 2px;
     }
   </style>
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
-<header>
-  <h1>YokoLab DM</h1>
-  <a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a>
-  <a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a>
-  <a href="{% url 'search:search' %}">SEARCH</a>
-  <a href="/accounts/profile">TOP</a>
-</header>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">YokoLab DM</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'django.contrib.auth.views.login' %}">LOGIN</a></li>
+            <li><a href="{% url 'django.contrib.auth.views.logout' %}">LOGOUT</a>
+            <li><a href="{% url 'search:search' %}">SEARCH</a><li>
+            <li><a href="/accounts/profile">TOP</a></li>
+        </ul>
+        <!-- 4.ボタン -->
+    </div>
+</nav>
+
 <center>
 
 {% block body %}
