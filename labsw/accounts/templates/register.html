@@ -1,8 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}LOGIN{% endblock title %}
+
+{% block body %}
+
   <h1>ユーザー登録</h1>
 
   <form method="post" action="{% url 'register' %}">{% csrf_token %}
@@ -13,5 +14,4 @@
   </form>
   <br />
   <a href="/login">戻る</a>
-</body>
-</html>
+{% endblock %}
