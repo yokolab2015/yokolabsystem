@@ -1,28 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
+{% extends "base.html" %}
 
-<body>
-  <h1>削除ユーザー選択</h1>
-  <p>削除するユーザーを選んでください</p>
-  <form method="post" action="{% url 'adcomp' %}">{% csrf_token %}
-   <table border="1">
-     <tr>
-       <th></th>
-       <th>学籍番号</th>
-       <th>名前</th>
-     </tr>
-     {% for userinfo in users %}
-     <tr>
-       <td><input type="checkbox" name="id" value="{{ userinfo.id }}"></td>
-       <td>{{ userinfo.number }}</td>
-       <td>{{ userinfo.username }}</td>
-     </tr>
-     {% endfor %}
-   </table>
-   <input type="submit" value="削除する"> 
-   </form>
-   <br />
-   <a href="/accounts/profile">戻る</a>
-</body>
-</html>
+{% block title %}LOGIN{% endblock title %}
+
+{% block body %}
+
+<h1>削除ユーザー選択</h1>
+<p>削除するユーザーを選んでください</p>
+<form method="post" action="{% url 'adcomp' %}">{% csrf_token %}
+ <table border="1">
+   <tr>
+     <th></th>
+     <th>学籍番号</th>
+     <th>名前</th>
+   </tr>
+   {% for userinfo in users %}
+   <tr>
+     <td><input type="checkbox" name="id" value="{{ userinfo.id }}"></td>
+     <td>{{ userinfo.number }}</td>
+     <td>{{ userinfo.username }}</td>
+   </tr>
+   {% endfor %}
+ </table>
+ <input type="submit" value="削除する"> 
+ </form>
+ <br />
+ <a href="/accounts/profile">戻る</a>
+
+{% endblock %}
