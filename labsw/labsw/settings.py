@@ -58,6 +58,9 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'labsw.urls'
 LOGIN_URL = '/login/'
 
+MEDIA_ROOT = '/home/vagrant/yokolabsystem/labsw/upload'
+MEDIA_URL = '/media/'
+
 
 TEMPLATES = [
     {
